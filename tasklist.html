@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead tr {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-links a {
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .action-links a.edit {
+            color: #4CAF50;
+        }
+
+        .action-links a.delete {
+            color: #f44336;
+        }
+
+        .no-tasks {
+            text-align: center;
+            color: #888;
+            padding: 20px;
+        }
+    </style>
+
+    <h2 style="text-align: center;">Tasks</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td><strong>{{ task.title }}</strong></td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.status }}</td>
+                    <td>{{ task.due_date }}</td>
+                    <td class="action-links">
+                        <a href="{% url 'task_update' task.id %}" class="edit">Edit</a>
+                        <a href="{% url 'task_delete' task.id %}" class="delete">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="no-tasks">No tasks available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

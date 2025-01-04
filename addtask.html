@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 style="text-align: center; margin-bottom: 20px;">
+        {% if task %}Edit Task{% else %}Create Task{% endif %}
+    </h2>
+    <form method="POST" style="max-width: 500px; margin: 0 auto; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 15px;">
+            <label for="title" style="font-weight: bold; display: block; margin-bottom: 5px;">Title:</label>
+            <input type="text" id="title" name="title" value="{{ task.title|default:'' }}" required 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label for="description" style="font-weight: bold; display: block; margin-bottom: 5px;">Description:</label>
+            <textarea id="description" name="description" 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 100px;">{{ task.description|default:'' }}</textarea>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label for="status" style="font-weight: bold; display: block; margin-bottom: 5px;">Status:</label>
+            <select id="status" name="status" 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="Pending" {% if task.status == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="In Progress" {% if task.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+            </select>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label for="due_date" style="font-weight: bold; display: block; margin-bottom: 5px;">Due Date:</label>
+            <input type="date" id="due_date" name="due_date" value="{{ task.due_date|default:'' }}" required 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        
+        <button type="submit" 
+            style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            {% if task %}Update{% else %}Create{% endif %}
+        </button>
+    </form>
+{% endblock %}
